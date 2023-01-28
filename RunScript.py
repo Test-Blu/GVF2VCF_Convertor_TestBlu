@@ -5,8 +5,9 @@ from GVF2VCF import parse_gvf_file
 if __name__ == '__main__':
 
     # input files
-    gvf_file = '../CanFam3/canis_lupus_familiaris_CanFam3.1.gvf.gz'
-    reference_genome_file = '../CanFam3/canFam3.fa.gz'
+    gvf_file = 'input/canis_lupus_familiaris_CanFam3.1.gvf.gz'
+    reference_genome_file = 'input/canFam3.fa.gz'
+    # chromosome name
     chr_name_list = [str(k) for k in list(range(1, 39))] + ['X']
     start_time = time.time()
     # run script
