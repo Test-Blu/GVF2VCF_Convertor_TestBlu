@@ -10,8 +10,6 @@ def seq(x):
     quotient = (pos - 1) // len(ref_gene[chromosome][0])
     remainder = (pos - 1) % len(ref_gene[chromosome][0])
     x['POS'] = pos
-    if genome_browser == 'ucsc':
-        x['#CHROM'] = 'chr' + x['#CHROM']
 
     ref_nuc = ref_gene[chromosome][quotient][remainder]
 
@@ -78,7 +76,6 @@ def write_vcf_file(gvf_file, vcf_df, dbSNP_v, ref_genome_name, source):
 
 
 def convert_vcf(gvf_file, gvf_df, reference_genome_file, dbSNP_v, ref_genome_name, ref_genome_db, source):
-
     # add new columns
     gvf_df['QUAL'] = '.'
     gvf_df['FILTER'] = '.'
@@ -99,8 +96,11 @@ def convert_vcf(gvf_file, gvf_df, reference_genome_file, dbSNP_v, ref_genome_nam
                     gvf_df.loc[(gvf_df['TSA'] != 'SNV') & (gvf_df['#CHROM'] == chr)].apply(seq, axis=1)
 
     # select columns
+    if genome_browser == 'ucsc':
+        gvf_df['#CHROM'] = 'chr' + gvf_df['#CHROM']
+
     vcf_df = gvf_df[['#CHROM', 'POS', 'ID', 'REF', 'ALT', 'QUAL', 'FILTER', 'INFO']]
-    # vcf_df['#CHROM'] = 'chr' + vcf_df['#CHROM']
+
     # write to csv file
     write_vcf_file(gvf_file, vcf_df, dbSNP_v, ref_genome_name, source)
 
