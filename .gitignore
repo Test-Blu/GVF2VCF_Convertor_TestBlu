@@ -152,3 +152,5 @@ cython_debug/
 #.idea/
 *.iml
 *.xml
+input/canFam3.fa.gz
+input/canis_lupus_familiaris_CanFam3.1.gvf.gz
