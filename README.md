@@ -8,6 +8,7 @@ To detect somatic variants, it is preferable to have germline variants known in 
 These resources can be accessed at NCBI or other relevant databases for human genomes, but for non-human organisms, they are only available in a limited form in some databases.
 </br>
 Germline variants are only reported in GVF (genome variant format) files for some non-human organisms in the Ensembl database
+http://www.ensembl.org/info/data/ftp/index.html/
 
 As the structure of this file differs from the VCF file, it should be converted to the VCF format for use with GATK.
 
