@@ -1,28 +1,19 @@
 # GVF2VCF_Convertor_TestBlu
- Super fast conversion of GVF file format to VCF file format
- 
-Finding robust variants (predominantly somatic variants) takes some additional resources.
+Super fast conversion of GVF file format to VCF file format
 
-To detect somatic variants, it is preferable to have germline variants known in the studied organism so that germline variants can be removed from the VCF output file of somatic variants.
-</br>
-These resources can be accessed at NCBI or other relevant databases for human genomes, but for non-human organisms, they are only available in a limited form in some databases.
-</br>
-Germline variants are only reported in GVF (genome variant format) files for some non-human organisms in the Ensembl database
-http://www.ensembl.org/info/data/ftp/index.html/
+In order to accurately identify variants, particularly somatic variants, it is necessary to have knowledge of the germline variants present in the organism being studied. 
+This information can be obtained from databases such as NCBI for human genomes, but for non-human organisms, it is only available in a limited form in some databases. For example, the <a href="http://www.ensembl.org/info/data/ftp/index.html/">Ensembl database</a> provides germline variants in the GVF (genome variant format) file format, which differs from the VCF format used by tools such as GATK.
 
-As the structure of this file differs from the VCF file, it should be converted to the VCF format for use with GATK.
+For this reason, Ensembl developers have made an API available to convert GVF files to VCF, but this API has several shortcomings, including:
+1. slow convergence times (it took about 6 hours in one tested sample!)
+2. potential incompleteness due to multiple users accessing the database
+3. limited support for reference genome header patterns (It only supports the header pattern of the Ensembl reference genome) 
+4. lack of some variants reported in the GVF file in the output VCF file.
 
-For this reason, Ensembl developers provided an API to convert GVF files to VCF in 2014, but this API has some severe problems:
+To address these issues, a Python script was developed to perform an offline conversion. This script is:
+1. significantly faster (It performs the conversion in 20 minutes (about six gigs of RAM is required))
+2. can report significant variants in a separate file (i.e. reported variants in articles or seen in many samples)
+3. supports both the UCSC and Ensembl reference genome header patterns. 
 
-1. Convergence is very slow (it took about 6 hours in one tested sample!)
-2. Because many people connect to the database through different Ensembl APIs, the conversion may be done incompletely.
-3. By comparing the GVF, and VCF files of Ensembl's API output, I realized that some germline variants were not reported in the VCF output!
-4. It only supports the header pattern of the Ensembl reference genome.
 
-For these reasons, we wrote a script in Python that performs an offline conversion.
-Its features include the following:
-1. It performs the conversion in 20 minutes (about six gigs of RAM is required)
-2. In addition to converting GVF to VCF, significant variants, i.e. reported variants in articles or seen in many samples, can be reported in a separate file.
-3. It supports the header pattern of the UCSC and Ensembl reference genome.
-
-In addition, by comparing the output VCF file of this script and the output VCF file of Ensembl API, we found that the output VCF file of our script reports all the variants in the output VCF file of Ensembl, as well as variants not found in the Ensembl output VCF file (but found in the GVF file).
+In addition, comparison of the output VCF file from this script and the Ensembl API shows that all variants from the Ensembl output are included, as well as variants not found in the Ensembl output but present in the GVF file.
